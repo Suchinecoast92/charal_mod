@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "charal_mod:raw_charal"
+  },
+  "result": "charal_mod:cooked_charal"
+}
