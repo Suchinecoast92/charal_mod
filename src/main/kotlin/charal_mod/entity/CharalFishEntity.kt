@@ -2,10 +2,13 @@ package charal_mod.entity
 
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.animal.WaterAnimal
-import net.minecraft.world.entity.player.Player
+import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal
+import net.minecraft.world.entity.ai.navigation.PathNavigation
+import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
@@ -22,6 +25,11 @@ class CharalFishEntity(
 
     private val animationCache: AnimatableInstanceCache = SingletonAnimatableInstanceCache(this)
 
+    init {
+        // Control de movimiento suave para criaturas acuáticas (similar a los peces vanilla)
+        this.moveControl = SmoothSwimmingMoveControl(this, 85, 10, 0.1f, 0.5f, true)
+    }
+
     override fun getAnimatableInstanceCache(): AnimatableInstanceCache = animationCache
 
     override fun registerControllers(controllers: AnimatableManager.ControllerRegistrar) {
@@ -35,6 +43,11 @@ class CharalFishEntity(
                 PlayState.CONTINUE
             }
         )
+    }
+
+    override fun createNavigation(level: Level): PathNavigation {
+        // Navegación ligada al agua para que busque caminos dentro del agua como un pez
+        return WaterBoundPathNavigation(this, level)
     }
 
     override fun registerGoals() {

@@ -10,7 +10,10 @@ import net.minecraft.world.entity.EntityDimensions
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.MobCategory
+import net.minecraft.world.entity.SpawnPlacements
 import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.animal.WaterAnimal
+import net.minecraft.world.level.levelgen.Heightmap
 
 object ModEntities {
     private const val MOD_ID: String = "charal_mod"
@@ -32,6 +35,13 @@ object ModEntities {
             Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.35)
+        )
+
+        SpawnPlacements.register(
+            CHARAL_FISH,
+            SpawnPlacements.Type.IN_WATER,
+            Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+            WaterAnimal::checkSurfaceWaterAnimalSpawnRules
         )
     }
 }
