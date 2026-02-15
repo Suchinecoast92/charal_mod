@@ -27,7 +27,8 @@ class CharalFishEntity(
 
     init {
         // Control de movimiento suave para criaturas acuáticas (similar a los peces vanilla)
-        this.moveControl = SmoothSwimmingMoveControl(this, 85, 10, 0.1f, 0.5f, true)
+        // Valores de velocidad más bajos ayudan a evitar giros demasiado cerrados en círculo
+        this.moveControl = SmoothSwimmingMoveControl(this, 85, 10, 0.02f, 0.1f, true)
     }
 
     override fun getAnimatableInstanceCache(): AnimatableInstanceCache = animationCache
@@ -52,7 +53,8 @@ class CharalFishEntity(
 
     override fun registerGoals() {
         super.registerGoals()
-        this.goalSelector.addGoal(1, RandomSwimmingGoal(this, 1.4, 40))
+        // Velocidad algo más baja y cambio de destino más frecuente para trayectorias menos circulares
+        this.goalSelector.addGoal(1, RandomSwimmingGoal(this, 1.0, 20))
         this.goalSelector.addGoal(2, AvoidEntityGoal(this, Player::class.java, 4.0f, 1.0, 1.6))
         this.goalSelector.addGoal(3, LookAtPlayerGoal(this, Player::class.java, 4.0f))
     }

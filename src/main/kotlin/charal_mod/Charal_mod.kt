@@ -3,7 +3,9 @@ package charal_mod
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.world.entity.MobCategory
+import net.minecraft.world.item.CreativeModeTabs
 import org.slf4j.LoggerFactory
 import software.bernie.geckolib.GeckoLib
 
@@ -17,8 +19,15 @@ object Charal_mod : ModInitializer {
 		GeckoLib.initialize()
 		ModItems.registerAll()
 		ModEntities.registerAll()
+		registerItemGroups()
 		registerNaturalSpawns()
 		logger.info("Hello Fabric world!")
+	}
+
+	private fun registerItemGroups() {
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.SPAWN_EGGS).register { entries ->
+			entries.accept(ModItems.CHARAL_FISH_SPAWN_EGG)
+		}
 	}
 
 	private fun registerNaturalSpawns() {
