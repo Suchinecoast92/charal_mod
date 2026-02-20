@@ -1,5 +1,10 @@
 {
   "item.charal_mod.raw_charal": "Charal crudo",
   "item.charal_mod.cooked_charal": "Charal cocinado",
-  "item.charal_mod.charal_fish_spawn_egg": "Huevo de charal"
+  "item.charal_mod.charal_fish_spawn_egg": "Huevo de charal",
+  "item.charal_mod.charal_bucket": "Cubeta con charal",
+  "item.charal_mod.charal_sword": "Espada de charal",
+  "item.charal_mod.charal_pickaxe": "Pico de charal",
+  "item.charal_mod.charal_shovel": "Pala de charal",
+  "item.charal_mod.gold_charal": "Charal dorado"
 }

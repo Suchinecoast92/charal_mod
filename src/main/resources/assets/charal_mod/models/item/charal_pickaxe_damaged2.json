@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "charal_mod:item/charal_pickaxe_damaged2"
+  }
+}

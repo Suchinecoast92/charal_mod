@@ -28,6 +28,19 @@ object Charal_mod : ModInitializer {
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.SPAWN_EGGS).register { entries ->
 			entries.accept(ModItems.CHARAL_FISH_SPAWN_EGG)
 		}
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FOOD_AND_DRINKS).register { entries ->
+			entries.accept(ModItems.RAW_CHARAL)
+			entries.accept(ModItems.COOKED_CHARAL)
+			entries.accept(ModItems.GOLD_CHARAL)
+		}
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register { entries ->
+			entries.accept(ModItems.CHARAL_BUCKET)
+			entries.accept(ModItems.CHARAL_PICKAXE)
+			entries.accept(ModItems.CHARAL_SHOVEL)
+		}
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register { entries ->
+			entries.accept(ModItems.CHARAL_SWORD)
+		}
 	}
 
 	private fun registerNaturalSpawns() {
