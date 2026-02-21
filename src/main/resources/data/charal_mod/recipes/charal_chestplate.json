@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X X",
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "charal_mod:raw_charal"
+    }
+  },
+  "result": {
+    "item": "charal_mod:charal_chestplate"
+  }
+}

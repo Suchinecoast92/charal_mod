@@ -3,7 +3,14 @@ package charal_mod
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
+import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.MobCategory
 import net.minecraft.world.item.CreativeModeTabs
 import org.slf4j.LoggerFactory
@@ -21,6 +28,7 @@ object Charal_mod : ModInitializer {
 		ModEntities.registerAll()
 		registerItemGroups()
 		registerNaturalSpawns()
+		registerArmorSetBonus()
 		logger.info("Hello Fabric world!")
 	}
 
@@ -40,6 +48,10 @@ object Charal_mod : ModInitializer {
 		}
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register { entries ->
 			entries.accept(ModItems.CHARAL_SWORD)
+			entries.accept(ModItems.CHARAL_HELMET)
+			entries.accept(ModItems.CHARAL_CHESTPLATE)
+			entries.accept(ModItems.CHARAL_LEGGINGS)
+			entries.accept(ModItems.CHARAL_BOOTS)
 		}
 	}
 
@@ -52,5 +64,48 @@ object Charal_mod : ModInitializer {
 			5,
 			20
 		)
+	}
+
+	private fun registerArmorSetBonus() {
+		ServerTickEvents.END_WORLD_TICK.register(ServerTickEvents.EndWorldTick { world ->
+			for (player in world.players()) {
+				applyCharalArmorBonus(player)
+			}
+		})
+	}
+
+	private fun applyCharalArmorBonus(player: ServerPlayer) {
+		val head = player.getItemBySlot(EquipmentSlot.HEAD)
+		val chest = player.getItemBySlot(EquipmentSlot.CHEST)
+		val legs = player.getItemBySlot(EquipmentSlot.LEGS)
+		val feet = player.getItemBySlot(EquipmentSlot.FEET)
+
+		val hasFullSet =
+			head.item == ModItems.CHARAL_HELMET &&
+			chest.item == ModItems.CHARAL_CHESTPLATE &&
+			legs.item == ModItems.CHARAL_LEGGINGS &&
+			feet.item == ModItems.CHARAL_BOOTS
+
+		if (hasFullSet && player.isInWater) {
+			// Bonus de set completo: ligera velocidad y respiración acuática dentro del agua.
+			// Duraciones cortas para que se renueven suavemente cada tick mientras se cumpla la condición.
+			player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SPEED, 10, 0))
+			player.addEffect(MobEffectInstance(MobEffects.WATER_BREATHING, 10, 0))
+
+			val level = player.level()
+			if (level is ServerLevel) {
+				level.sendParticles(
+					ParticleTypes.BUBBLE,
+					player.x,
+					player.y + 0.5,
+					player.z,
+					3,
+					0.3,
+					0.5,
+					0.3,
+					0.01
+				)
+			}
+		}
 	}
 }

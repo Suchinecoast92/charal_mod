@@ -1,0 +1,20 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "charal_mod:item/charal_boots"
+  },
+  "overrides": [
+    {
+      "predicate": { "damaged": 1, "damage": 0.33 },
+      "model": "charal_mod:item/charal_boots_damaged1"
+    },
+    {
+      "predicate": { "damaged": 1, "damage": 0.66 },
+      "model": "charal_mod:item/charal_boots_damaged2"
+    },
+    {
+      "predicate": { "damaged": 1, "damage": 0.9 },
+      "model": "charal_mod:item/charal_boots_damaged3"
+    }
+  ]
+}

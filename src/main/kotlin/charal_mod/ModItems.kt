@@ -5,6 +5,8 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.food.FoodProperties
+import net.minecraft.world.item.ArmorItem
+import net.minecraft.world.item.ArmorMaterial
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.MobBucketItem
@@ -42,6 +44,39 @@ object ModItems {
         override fun getRepairIngredient(): Ingredient = Ingredient.EMPTY
     }
 
+    private val CHARAL_ARMOR_MATERIAL: ArmorMaterial = object : ArmorMaterial {
+        // Durabilidades explícitas por pieza (todas por debajo del cuero, pero suficientes para muchos bocados).
+        private val durabilityByType = mapOf(
+            ArmorItem.Type.BOOTS to 45,      // cuero: 65
+            ArmorItem.Type.LEGGINGS to 55,   // cuero: 75
+            ArmorItem.Type.CHESTPLATE to 60, // cuero: 80
+            ArmorItem.Type.HELMET to 40      // cuero: 55
+        )
+
+        private val defenseByType = mapOf(
+            ArmorItem.Type.BOOTS to 1,
+            ArmorItem.Type.LEGGINGS to 1,
+            ArmorItem.Type.CHESTPLATE to 2,
+            ArmorItem.Type.HELMET to 1
+        )
+
+        override fun getDurabilityForType(type: ArmorItem.Type): Int = durabilityByType.getValue(type)
+
+        override fun getDefenseForType(type: ArmorItem.Type): Int = defenseByType.getValue(type)
+
+        override fun getEnchantmentValue(): Int = 8
+
+        override fun getEquipSound() = SoundEvents.ARMOR_EQUIP_LEATHER
+
+        override fun getRepairIngredient(): Ingredient = Ingredient.of(RAW_CHARAL)
+
+        override fun getName(): String = "charal_mod:armor"
+
+        override fun getToughness(): Float = 0.0f
+
+        override fun getKnockbackResistance(): Float = 0.0f
+    }
+
     val CHARAL_BUCKET: Item = registerItem(
         "charal_bucket",
         MobBucketItem(
@@ -51,6 +86,50 @@ object ModItems {
             Item.Properties()
                 .stacksTo(1)
                 .craftRemainder(Items.BUCKET)
+        )
+    )
+
+    val CHARAL_HELMET: Item = registerItem(
+        "charal_helmet",
+        CharalArmorItem(
+            CHARAL_ARMOR_MATERIAL,
+            ArmorItem.Type.HELMET,
+            Item.Properties(),
+            3,
+            0.6f
+        )
+    )
+
+    val CHARAL_CHESTPLATE: Item = registerItem(
+        "charal_chestplate",
+        CharalArmorItem(
+            CHARAL_ARMOR_MATERIAL,
+            ArmorItem.Type.CHESTPLATE,
+            Item.Properties(),
+            3,
+            0.6f
+        )
+    )
+
+    val CHARAL_LEGGINGS: Item = registerItem(
+        "charal_leggings",
+        CharalArmorItem(
+            CHARAL_ARMOR_MATERIAL,
+            ArmorItem.Type.LEGGINGS,
+            Item.Properties(),
+            3,
+            0.6f
+        )
+    )
+
+    val CHARAL_BOOTS: Item = registerItem(
+        "charal_boots",
+        CharalArmorItem(
+            CHARAL_ARMOR_MATERIAL,
+            ArmorItem.Type.BOOTS,
+            Item.Properties(),
+            3,
+            0.6f
         )
     )
 
